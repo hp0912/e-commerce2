@@ -26,7 +26,7 @@ npm run build --report
 7. 新增订单支付功能
 8. 使用session重写登录逻辑(待完成)
 
-####### 参考资料
+###### 参考资料
 1. [https://github.com/shenghy/SmileVue](https://github.com/shenghy/SmileVue)
 2. [仿美团外面全栈项目](https://github.com/zwStar/vue-meituan)
 3. [仿美团外面全栈项目后端](https://github.com/zwStar/meituan-backend)
