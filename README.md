@@ -26,6 +26,8 @@ npm run build --report
 7. 新增订单支付功能
 8. 使用session重写登录逻辑(待完成)
 
+[后端项目链接: https://github.com/hp0912/e-commerce2-backend](https://github.com/hp0912/e-commerce2-backend)
+
 ###### 参考资料
 1. [https://github.com/shenghy/SmileVue](https://github.com/shenghy/SmileVue)
 2. [仿美团外面全栈项目](https://github.com/zwStar/vue-meituan)
