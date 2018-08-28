@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <title>ecommerce</title>
+    <style>
+      #Loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%)  translateX(-50%);
+      }
+    </style>
+    <script src="https://cdn.dingxiang-inc.com/ctu-group/captcha-ui/index.js"></script>
+    <script>
+      // 得到手机屏幕的宽度
+      let htmlWidth = document.documentElement.clientWidth || document.body.clientWidth
+      if (htmlWidth > 1200) htmlWidth = 1200
+      // 得到html的Dom元素
+      let htmlDom = document.getElementsByTagName('html')[0]
+      // 设置根元素字体大小
+      htmlDom.style.fontSize= htmlWidth/20 + 'px'
+    </script>
+  </head>
+  <body>
+    <div id="Loading">
+      <img src="https://img.zcool.cn/community/01deb258a16ddba801219c77f13646.gif" alt="loading">
+    </div>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
