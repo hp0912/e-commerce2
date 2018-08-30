@@ -15,7 +15,7 @@
     <div class="swiper-area">
       <van-swipe :autoplay="2000">
         <van-swipe-item v-for="(banner, index) in bannerPicArray" :key="index">
-          <img v-lazy="banner.image" width="100%" />
+          <img v-lazy="banner.image" width="100%" @click="goGoodsInfo(banner.goodsId)" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -39,7 +39,7 @@
         <!--swiper-->
         <swiper :options="swiperOption">
           <swiper-slide v-for=" (item, index) in recommendGoods" :key="index">
-            <div class="recommend-item">
+            <div class="recommend-item" @click="goGoodsInfo(item.goodsId)">
               <img :src="item.image" width="80%" />
               <div class="info" :title="item.goodsName">{{ item.goodsName }}</div>
               <div>￥{{ item.price }} (￥{{ item.mallPrice }})</div>
@@ -132,6 +132,11 @@ export default {
     }).catch((error) => {
       console.log(error.message)
     })
+  },
+  methods: {
+    goGoodsInfo (id) {
+      this.$router.push({name: 'Goods', query: {goodsId: id}})
+    }
   }
 }
 </script>

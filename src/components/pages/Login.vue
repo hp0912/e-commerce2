@@ -29,6 +29,11 @@
     <div class="register-button">
       <van-button type="primary" size="large" @click="LoginAction" :loading="openLoading">登录</van-button>
     </div>
+    <div class="reg-container">
+      <router-link to="/register">
+        没有帐号? 前往注册>>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -50,9 +55,12 @@ export default {
     }
   },
   created () {
-    if (localStorage.userInfo) {
-      Toast.success('您已经登录')
-      this.$router.push('/')
+    if (localStorage.userId) {
+      this.$dialog.alert({
+        message: '您已经登录'
+      }).then(() => {
+        this.$router.push('/')
+      })
     }
   },
   mounted () {
@@ -88,7 +96,7 @@ export default {
         this.passwordErrorMsg = ''
       }
       if (this.token === '') {
-        Toast.success('请完成滑块验证')
+        Toast('请完成滑块验证')
         isOk = false
       }
       return isOk
@@ -98,6 +106,7 @@ export default {
       axios({
         url: URL.login,
         method: 'post',
+        withCredentials: true,
         data: {
           userName: this.username,
           password: this.password,
@@ -106,30 +115,34 @@ export default {
       }).then(response => {
         if (response.data.code === 200 && response.data.result) {
           new Promise((resolve, reject) => {
-            localStorage.userInfo = {userName: this.username}
+            localStorage.userId = this.username
             setTimeout(() => {
               resolve()
             }, 500)
           }).then(() => {
             Toast.success(response.data.message)
-            this.$router.push('/')
+            if (this.$route.query.redirect) {
+              this.$router.push(decodeURIComponent(this.$route.query.redirect))
+            } else {
+              this.$router.push('/')
+            }
           }).catch(err => {
             this.capt.reload()
             this.token = ''
-            Toast.fail('登录状态保存失败')
+            Toast('登录状态保存失败')
             console.log(err.message)
           })
         } else {
           this.capt.reload()
           this.token = ''
-          Toast.fail(response.data.message)
+          Toast(response.data.message)
           this.openLoading = false
         }
       }).catch((error) => {
         console.log(error.message)
         this.capt.reload()
         this.token = ''
-        Toast.fail('内部服务器错误')
+        Toast('内部服务器错误')
         this.openLoading = false
       })
     }
@@ -149,5 +162,10 @@ export default {
 }
 .register-button {
   padding-top: 5px;
+}
+.reg-container {
+  margin: 15px 0;
+  text-align: right;
+  font-size: 0.55rem;
 }
 </style>

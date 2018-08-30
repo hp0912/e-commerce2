@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {Toast} from 'vant'
 
 const Register = r => require.ensure([], () => r(require('@/components/pages/Register')), 'Register')
 const Login = r => require.ensure([], () => r(require('@/components/pages/Login')), 'Login')
@@ -13,11 +14,12 @@ const ConfirmOrder = r => require.ensure([], () => r(require('@/components/pages
 const AddAddress = r => require.ensure([], () => r(require('@/components/pages/confirmOrder/AddAddress')), 'AddAddress')
 const Address = r => require.ensure([], () => r(require('@/components/pages/confirmOrder/Address')), 'Address')
 const Pay = r => require.ensure([], () => r(require('@/components/pages/Pay')), 'Pay')
+const OrderDetail = r => require.ensure([], () => r(require('@/components/pages/order/OrderDetail')), 'OrderDetail')
 const Error = r => require.ensure([], () => r(require('@/components/pages/Error')), 'Error')
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -59,22 +61,32 @@ export default new Router({
     {
       path: '/confirmOrder',
       name: 'ConfirmOrder',
-      component: ConfirmOrder
+      component: ConfirmOrder,
+      meta: {requireAuth: true}
     },
     {
       path: '/pay',
       name: 'Pay',
-      component: Pay
+      component: Pay,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/orderDetail',
+      name: 'OrderDetail',
+      component: OrderDetail,
+      meta: {requireAuth: true}
     },
     {
       path: '/addAddress',
       name: 'AddAddress',
-      component: AddAddress
+      component: AddAddress,
+      meta: {requireAuth: true}
     },
     {
       path: '/address',
       name: 'Address',
-      component: Address
+      component: Address,
+      meta: {requireAuth: true}
     },
     {
       path: '/register',
@@ -97,3 +109,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (localStorage.userId) {
+      next()
+    } else {
+      Toast('亲, 您还没登录呢~')
+      next({path: '/login', query: {redirect: to.fullPath}})
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

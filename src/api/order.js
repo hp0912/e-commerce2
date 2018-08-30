@@ -43,21 +43,3 @@ export const makeComment = (data) => {
   }
   return _post(req)
 }
-
-// 请求支付
-export const requestPay = (data) => {
-  let req = {
-    data,
-    url: '/https://pay.ispay.cn/core/api/request/pay/'
-  }
-  return _post(req)
-}
-
-// 监听扫码支付状态
-export const listenStatus = (data) => {
-  let req = {
-    data,
-    url: 'v1/listen_status'
-  }
-  return _get(req)
-}

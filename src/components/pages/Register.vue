@@ -98,10 +98,14 @@ export default {
         return
       }
       this.sent = true
+      if (!this.username.match(/^[1][34578]\d{9}$/)) {
+        this.usernameErrorMsg = '请输入正确的手机号'
+      }
       axios({
         url: URL.sentVerificationCode,
         method: 'post',
-        data: {}
+        withCredentials: true,
+        data: {tel: this.username}
       }).then(response => {
         if (response.data.code === 200) {
           this.smsButtonText = `${this.countdown}S`
@@ -117,7 +121,7 @@ export default {
             this.smsButtonText = `${this.countdown}S`
           }, 1000)
         } else {
-          Toast.fail('验证码发送失败')
+          Toast('验证码发送失败')
           this.sent = false
         }
       }).catch((error) => {
@@ -131,21 +135,23 @@ export default {
       axios({
         url: URL.registerUser,
         method: 'post',
+        withCredentials: true,
         data: {
           userName: this.username,
-          password: this.password
+          password: this.password,
+          sms: this.sms
         }
       }).then(response => {
         if (response.data.code === 200) {
           Toast.success('注册成功')
           this.$router.push('/')
         } else {
-          Toast.fail('注册失败')
+          Toast(response.data.message)
           this.openLoading = false
         }
       }).catch((error) => {
         console.log(error.message)
-        Toast.fail('注册失败')
+        Toast.fail(error.message)
         this.openLoading = false
       })
     }
