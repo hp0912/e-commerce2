@@ -15,6 +15,7 @@ const AddAddress = r => require.ensure([], () => r(require('@/components/pages/c
 const Address = r => require.ensure([], () => r(require('@/components/pages/confirmOrder/Address')), 'Address')
 const Pay = r => require.ensure([], () => r(require('@/components/pages/Pay')), 'Pay')
 const OrderDetail = r => require.ensure([], () => r(require('@/components/pages/order/OrderDetail')), 'OrderDetail')
+const User = r => require.ensure([], () => r(require('@/components/pages/user/User')), 'User')
 const Error = r => require.ensure([], () => r(require('@/components/pages/Error')), 'Error')
 
 Vue.use(Router)
@@ -97,6 +98,11 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/user',
+      name: 'User',
+      component: User
     },
     {
       path: '/error',

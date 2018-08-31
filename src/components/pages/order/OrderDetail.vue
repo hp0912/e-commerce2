@@ -120,7 +120,7 @@ export default {
       this.$router.push({name: 'Index'})
     },
     onClickRight () {
-      this.$router.push({name: 'Error'})
+      this.$router.push({name: 'User'})
     }
   }
 }

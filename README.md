@@ -24,7 +24,8 @@ npm run build --report
 5. 新增地址定位和商品搜索功能
 6. 优化商品购买体验，优化购物车页面
 7. 新增订单支付功能
-8. 使用session重写登录逻辑(待完成)
+8. 使用session重写登录逻辑
+9. 新增用户中心页面
 
 [后端项目链接: https://github.com/hp0912/e-commerce2-backend](https://github.com/hp0912/e-commerce2-backend)
 

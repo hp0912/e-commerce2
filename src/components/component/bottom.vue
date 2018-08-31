@@ -12,7 +12,7 @@
       <div class="van-tabbar-item__icon"><i class="van-icon van-icon-cart"><!----></i><div class="van-icon__info">{{ cartListNum }}</div></div>
       <div class="van-tabbar-item__text">购物车</div>
     </div>
-    <div class="van-tabbar-item" :class="{'van-tabbar-item--active': active === 'error'}" @click="toError">
+    <div class="van-tabbar-item" :class="{'van-tabbar-item--active': active === 'user'}" @click="toUser">
       <div class="van-tabbar-item__icon"><i class="van-icon van-icon-contact"><!----></i></div>
       <div class="van-tabbar-item__text">会员中心</div>
     </div>
@@ -44,8 +44,8 @@ export default {
     toCart () {
       this.$router.push({name: 'Cart'})
     },
-    toError () {
-      this.$router.push({name: 'Error'})
+    toUser () {
+      this.$router.push({name: 'User'})
     }
   }
 }

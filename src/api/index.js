@@ -14,8 +14,9 @@ axios.interceptors.response.use(data => {
   return data
 },
 error => {
-  if (error.response.status === 403) {
+  if (error.response.status === 401) {
     Toast('亲, 您还没登录呢~')
+    localStorage.removeItem('userId')
     router.replace({path: 'login', query: {redirect: router.currentRoute.fullPath}})
   }
   return Promise.reject(error)
