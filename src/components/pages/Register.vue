@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar
-      title="用户注册"
+      :title="title"
       left-text="返回"
       left-arrow
       @click-left="goBack"
@@ -38,7 +38,7 @@
       </van-field>
     </van-cell-group>
     <div class="register-button">
-      <van-button type="primary" size="large" @click="registerAction" :loading="openLoading">马上注册</van-button>
+      <van-button type="primary" size="large" @click="registerAction" :loading="openLoading">{{ submitText }}</van-button>
     </div>
   </div>
 </template>
@@ -51,6 +51,8 @@ import {Toast} from 'vant'
 export default {
   data () {
     return {
+      title: '',
+      submitText: '',
       username: '',
       password: '',
       sms: '',
@@ -61,7 +63,19 @@ export default {
       openLoading: false,
       smsButtonText: '发送验证码',
       timer: 0,
-      countdown: 60
+      countdown: 60,
+      reset: false
+    }
+  },
+  created () {
+    if (this.$route.params.reset) {
+      this.reset = true
+      this.title = '密码重置'
+      this.submitText = '重置密码'
+    } else {
+      this.reset = false
+      this.title = '用户注册'
+      this.submitText = '马上注册'
     }
   },
   methods: {
@@ -139,11 +153,13 @@ export default {
         data: {
           userName: this.username,
           password: this.password,
-          sms: this.sms
+          sms: this.sms,
+          reset: this.reset
         }
       }).then(response => {
         if (response.data.code === 200) {
-          Toast.success('注册成功')
+          localStorage.setItem('userId', this.username)
+          Toast.success(response.data.message)
           this.$router.push('/')
         } else {
           Toast(response.data.message)

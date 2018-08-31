@@ -30,6 +30,9 @@
       <van-button type="primary" size="large" @click="LoginAction" :loading="openLoading">登录</van-button>
     </div>
     <div class="reg-container">
+      <span @click="resetPassword" style="color: #41e1db;">
+        忘记密码? 立即找回>>
+      </span>
       <router-link to="/register">
         没有帐号? 前往注册>>
       </router-link>
@@ -115,7 +118,7 @@ export default {
       }).then(response => {
         if (response.data.code === 200 && response.data.result) {
           new Promise((resolve, reject) => {
-            localStorage.userId = this.username
+            localStorage.setItem('userId', this.username)
             setTimeout(() => {
               resolve()
             }, 500)
@@ -145,6 +148,9 @@ export default {
         Toast('内部服务器错误')
         this.openLoading = false
       })
+    },
+    resetPassword () {
+      this.$router.push({name: 'Register', params: {reset: true}})
     }
   }
 }
@@ -164,8 +170,14 @@ export default {
   padding-top: 5px;
 }
 .reg-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: 15px 0;
   text-align: right;
   font-size: 0.55rem;
+}
+.reg-container a {
+  color: #41e1db;
 }
 </style>

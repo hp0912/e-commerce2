@@ -83,7 +83,7 @@
     </div>
     <!-- 用户信息 -->
     <div class="about-houhou" style="margin-bottom: 0;">
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="editAddress">
         <div class="about-houhou-icon">
           <van-icon name="location" />
         </div>
@@ -92,7 +92,7 @@
           <van-icon name="arrow" />
         </div>
       </div>
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="resetPassword">
         <div class="about-houhou-icon">
           <van-icon name="edit-data" />
         </div>
@@ -101,7 +101,7 @@
           <van-icon name="arrow" />
         </div>
       </div>
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="logout">
         <div class="about-houhou-icon">
           <van-icon name="close" />
         </div>
@@ -120,6 +120,9 @@
 // import {getInfo} from '@/utils/auth'
 // import {uploadToken, upload} from '@/api/upload'
 // import config from '@/config'
+import axios from 'axios'
+import {URL} from '@/serviceAPI.config.js'
+import {Toast} from 'vant'
 
 export default {
   data () {
@@ -167,6 +170,38 @@ export default {
         this.$router.push('/login');
       }
     } */
+    editAddress () {
+      this.$router.push({name: 'Address', params: {fromUser: true}})
+    },
+    resetPassword () {
+      this.$router.push({name: 'Register', params: {reset: true}})
+    },
+    logout () {
+      if (!localStorage.getItem('userId')) {
+        return
+      }
+      this.$dialog.confirm({
+        title: '确认登出',
+        message: '确定要退出登录吗?'
+      }).then(() => {
+        axios({
+          url: URL.logout,
+          method: 'post',
+          withCredentials: true
+        }).then(response => {
+          if (response.data.code === 200) {
+            localStorage.removeItem('userId')
+            Toast('已登出')
+          } else {
+            Toast('服务器内部错误, 请联系管理员')
+          }
+        }).catch(() => {
+          Toast('服务器内部错误, 请联系管理员')
+        })
+      }).catch(() => {
+        console.log('取消登出')
+      })
+    }
   },
   mounted () {
     /* this.username = getInfo();

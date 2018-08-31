@@ -6,6 +6,7 @@ const URL = {
   registerUser: BASEURL + 'user/register',
   sentVerificationCode: BASEURL + 'user/sentVerificationCode',
   login: BASEURL + 'user/login',
+  logout: BASEURL + 'user/logout',
   getDetailGoodsInfo: BASEURL + 'goods/getDetailGoodsInfo',
   getCategoryList: BASEURL + 'goods/getCategoryList',
   getCategorySubList: BASEURL + 'goods/getCategorySubList',

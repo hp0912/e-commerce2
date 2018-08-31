@@ -28,10 +28,14 @@ export default {
     return {
       zIndex: 100,
       chosenAddressId: '',
+      fromUser: false,
       list: []
     }
   },
   created () {
+    if (this.$route.params.fromUser) {
+      this.fromUser = true
+    }
     getUserAddress({}).then((response) => {
       let data = response.data.data.address
       let addressList = []
@@ -67,6 +71,9 @@ export default {
       this.$router.push({path: 'addAddress', query: {id: item.id, index: index}})
     },
     onSelect (item, index) {
+      if (this.fromUser) {
+        return
+      }
       this.$router.push({name: 'ConfirmOrder', params: {addressId: item.id, index: index}})
     }
   }
