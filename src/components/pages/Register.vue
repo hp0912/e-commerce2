@@ -160,7 +160,7 @@ export default {
         if (response.data.code === 200) {
           localStorage.setItem('userId', this.username)
           Toast.success(response.data.message)
-          this.$router.push('/')
+          this.$router.replace('/')
         } else {
           Toast(response.data.message)
           this.openLoading = false

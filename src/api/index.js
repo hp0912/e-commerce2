@@ -17,7 +17,7 @@ error => {
   if (error.response.status === 401) {
     Toast('亲, 您未登录或登录信息已过期~')
     localStorage.removeItem('userId')
-    router.replace({path: 'login', query: {redirect: router.currentRoute.fullPath}})
+    router.push({path: 'login', query: {redirect: router.currentRoute.fullPath}})
   }
   return Promise.reject(error)
 })

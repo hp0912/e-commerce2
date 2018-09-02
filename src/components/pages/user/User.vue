@@ -44,7 +44,7 @@
     </div>
     <!-- 平台信息 -->
     <div class="about-houhou">
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="popup">
         <div class="about-houhou-icon">
           <van-icon name="coupon" />
         </div>
@@ -53,7 +53,7 @@
           <van-icon name="arrow" />
         </div>
       </div>
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="customerService">
         <div class="about-houhou-icon">
           <van-icon name="phone" />
         </div>
@@ -62,7 +62,7 @@
           <van-icon name="arrow" />
         </div>
       </div>
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="welfare">
         <div class="about-houhou-icon">
           <van-icon name="gift-card-pay" />
         </div>
@@ -71,7 +71,7 @@
           <van-icon name="arrow" />
         </div>
       </div>
-      <div class="about-houhou-01">
+      <div class="about-houhou-01" @click="aboutUs">
         <div class="about-houhou-icon">
           <van-icon name="description" />
         </div>
@@ -170,6 +170,18 @@ export default {
         this.$router.push('/login');
       }
     } */
+    popup () {
+      this.$router.push({name: 'Popup'})
+    },
+    customerService () {
+      this.$router.push({name: 'CustomerService'})
+    },
+    welfare () {
+      this.$router.push({name: 'Welfare'})
+    },
+    aboutUs () {
+      this.$router.push({name: 'AboutUs'})
+    },
     editAddress () {
       this.$router.push({name: 'Address', params: {fromUser: true}})
     },
@@ -178,6 +190,7 @@ export default {
     },
     logout () {
       if (!localStorage.getItem('userId')) {
+        Toast('亲, 您还未曾登录~')
         return
       }
       this.$dialog.confirm({

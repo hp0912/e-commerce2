@@ -125,9 +125,9 @@ export default {
           }).then(() => {
             Toast.success(response.data.message)
             if (this.$route.query.redirect) {
-              this.$router.push(decodeURIComponent(this.$route.query.redirect))
+              this.$router.replace(decodeURIComponent(this.$route.query.redirect))
             } else {
-              this.$router.push('/')
+              this.$router.replace('/')
             }
           }).catch(err => {
             this.capt.reload()

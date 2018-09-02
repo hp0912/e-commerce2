@@ -16,6 +16,10 @@ const Address = r => require.ensure([], () => r(require('@/components/pages/conf
 const Pay = r => require.ensure([], () => r(require('@/components/pages/Pay')), 'Pay')
 const OrderDetail = r => require.ensure([], () => r(require('@/components/pages/order/OrderDetail')), 'OrderDetail')
 const User = r => require.ensure([], () => r(require('@/components/pages/user/User')), 'User')
+const AboutUs = r => require.ensure([], () => r(require('@/components/pages/user/AboutUs')), 'AboutUs')
+const Welfare = r => require.ensure([], () => r(require('@/components/pages/user/Welfare')), 'Welfare')
+const CustomerService = r => require.ensure([], () => r(require('@/components/pages/user/CustomerService')), 'CustomerService')
+const Popup = r => require.ensure([], () => r(require('@/components/pages/user/Popup')), 'Popup')
 const Error = r => require.ensure([], () => r(require('@/components/pages/Error')), 'Error')
 
 Vue.use(Router)
@@ -105,6 +109,27 @@ const router = new Router({
       component: User
     },
     {
+      path: '/aboutUs',
+      name: 'AboutUs',
+      component: AboutUs
+    },
+    {
+      path: '/welfare',
+      name: 'Welfare',
+      component: Welfare
+    },
+    {
+      path: '/customerService',
+      name: 'CustomerService',
+      component: CustomerService
+    },
+    {
+      path: '/popup',
+      name: 'Popup',
+      component: Popup,
+      meta: {requireAuth: true}
+    },
+    {
       path: '/error',
       name: 'Error',
       component: Error
@@ -122,7 +147,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       Toast('亲, 您还没登录呢~')
-      next({path: '/login', query: {redirect: to.fullPath}})
+      next({path: '/login', query: {redirect: to.fullPath}, replace: false})
     }
   } else {
     next()
