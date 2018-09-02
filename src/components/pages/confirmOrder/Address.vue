@@ -55,6 +55,8 @@ export default {
     }).catch(error => {
       if (error.message.indexOf('timeout') !== -1) {
         Toast('网络不给力啊, 嗷了个呜...')
+      } else if (error.status === 401) {
+        Toast('亲, 您还没登录呢~')
       } else {
         Toast('服务器错误')
       }

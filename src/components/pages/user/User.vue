@@ -2,12 +2,12 @@
   <div id="user">
     <!-- 登录注册 -->
     <div id="user-info">
-      <label class="avatar" for="file">
+      <label class="avatar" @click="uploadAvatar">
         <img :src="avatar" :onerror="errorImage" />
         <input id="file" type="file" @change="fileUpload($event)" style="display: none;">
       </label>
-      <router-link v-if="!username" class="login" to="/login" tag="span">登录/注册</router-link>
-      <span v-else class="username">{{username}}</span>
+      <router-link v-if="!userInfo.userName" class="login" to="/login" tag="span">登录/注册</router-link>
+      <span v-else class="username">{{ userInfo.userName }}</span>
     </div>
     <!-- 订单信息 -->
     <div class="order-container">
@@ -123,53 +123,47 @@
 import axios from 'axios'
 import {URL} from '@/serviceAPI.config.js'
 import {Toast} from 'vant'
+import {mapGetters} from 'vuex'
 
 export default {
   data () {
     return {
-      username: null,
       avatar: require('@/assets/images/default-avatar.png'),
-      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"',
-      loading: false,
-      alertText: '',
-      showTip: false,
-      myFunList: [],
-      myAssetsList: [],
-      introList: []
+      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"'
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
-    /* fileUpload(event) {
-      this.loading = true;
-      let file = event.target.files[0];
-      if (file.size > 1024 * 1024 * 3) {    //只能传2M以内照片
-        this.alertText = '上传失败，只能传2M以内图片'
-        this.showTip = true;
+    uploadAvatar () {
+      document.getElementById('file').click()
+    },
+    fileUpload (event) {
+      let file = event.target.files[0]
+      if (!file) {
+        return
+      }
+      if (file.size > 1024 * 1024 * 2) {
+        Toast('上传失败，只能传2M以内图片')
       } else {
-        uploadToken().then((response) => {
-          if (response.data.status === 200) {
-            let data = {token: response.data.uptoken, file}
-            upload(data).then((upResponse) => {
-              let pic_url = config.domain + upResponse.data.key
-              this.avatar = pic_url;
-              this.loading = false;
-              changeAvatar({pic_url}).then((updateResponse) => {
-              })     //更新到数据库
-            })
-          } else {
-            this.alertText = response.data.message
-            this.showTip = true;
-          }
-        })
+        // uploadToken().then((response) => {
+        //   if (response.data.status === 200) {
+        //     let data = {token: response.data.uptoken, file}
+        //     upload(data).then((upResponse) => {
+        //       let pic_url = config.domain + upResponse.data.key
+        //       this.avatar = pic_url;
+        //       this.loading = false;
+        //       changeAvatar({pic_url}).then((updateResponse) => {
+        //       })     //更新到数据库
+        //     })
+        //   } else {
+        //     this.alertText = response.data.message
+        //     this.showTip = true;
+        //   }
+        // })
       }
     },
-    routerChange(url) {
-      if (this.username) {
-        this.$router.push(url);
-      } else {
-        this.$router.push('/login');
-      }
-    } */
     popup () {
       this.$router.push({name: 'Popup'})
     },
@@ -217,12 +211,9 @@ export default {
     }
   },
   mounted () {
-    /* this.username = getInfo();
-    if (this.username) {
-      userInfo().then((response) => {
-        this.avatar = response.data.data.avatar;
-      })
-    } */
+    if (!this.userInfo.userName) {
+      this.$store.dispatch('getUserInfo')
+    }
   }
 }
 </script>
@@ -248,6 +239,7 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   border: 1px solid #333;
+  font-size: 0;
 }
 .avatar img {
   width: 100%;

@@ -8,11 +8,11 @@ import Bottom from '@/components/component/bottom'
 import FastClick from 'fastclick'
 import {Button, Row, Col, Swipe, SwipeItem, Lazyload, List, Field, CellGroup, NavBar, Tabs, Tab, PullRefresh, Tabbar, TabbarItem, Stepper,
   GoodsAction, GoodsActionBigBtn, GoodsActionMiniBtn, Icon, SubmitBar, Checkbox, CheckboxGroup,
-  Card, AddressEdit, AddressList, Dialog, CouponCell, CouponList} from 'vant'
+  Card, AddressEdit, AddressList, Dialog} from 'vant'
 
 Vue.use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem).use(Lazyload).use(List).use(Field).use(NavBar).use(Tabs).use(Tab).use(CellGroup).use(PullRefresh)
   .use(Tabbar).use(TabbarItem).use(Stepper).use(GoodsAction).use(GoodsActionBigBtn).use(GoodsActionMiniBtn).use(Icon).use(SubmitBar).use(Checkbox).use(CheckboxGroup)
-  .use(Card).use(AddressEdit).use(AddressList).use(Dialog).use(CouponCell).use(CouponList)
+  .use(Card).use(AddressEdit).use(AddressList).use(Dialog)
 
 Vue.component('v-bottom', Bottom)
 

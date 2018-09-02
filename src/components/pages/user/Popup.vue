@@ -8,18 +8,9 @@
       :z-index="zIndex"
       @click-left="onClickLeft"
     />
-    <van-coupon-cell
-      :coupons="coupons"
-      :chosen-coupon="chosenCoupon"
-      @click="showList = true"
-    />
     <div class="popup-list">
-      <van-popup v-model="showList" position="bottom">
-        <van-coupon-list
-          :coupons="coupons"
-          :disabled-coupons="disabledCoupons"
-        />
-      </van-popup>
+      <img src="@/assets/images/popup.jpg" alt="">
+      <span>信超越，得免单优惠券</span>
     </div>
   </div>
 </template>
@@ -28,11 +19,7 @@
 export default {
   data () {
     return {
-      zIndex: 100,
-      showList: false,
-      chosenCoupon: -1,
-      coupons: [],
-      disabledCoupons: []
+      zIndex: 100
     }
   },
   methods: {
@@ -49,5 +36,16 @@ export default {
 }
 .van-nav-bar {
   background-color: #ff9000;
+}
+.popup-list {
+  text-align: center;
+}
+.popup-list img {
+  width: 100%;
+  height: 100%;
+}
+.popup-list span {
+  font-size: 0.75rem;
+  color: #dca105;
 }
 </style>
