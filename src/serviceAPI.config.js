@@ -7,6 +7,7 @@ const URL = {
   sentVerificationCode: BASEURL + 'user/sentVerificationCode',
   login: BASEURL + 'user/login',
   logout: BASEURL + 'user/logout',
+  updateUserInfo: BASEURL + 'user/updateUser',
   getDetailGoodsInfo: BASEURL + 'goods/getDetailGoodsInfo',
   getCategoryList: BASEURL + 'goods/getCategoryList',
   getCategorySubList: BASEURL + 'goods/getCategorySubList',

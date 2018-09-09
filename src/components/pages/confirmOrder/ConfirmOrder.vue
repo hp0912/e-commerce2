@@ -96,7 +96,7 @@ export default {
       cartInfo: {},
       fromGoods: false,
       loading: false,
-      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"'
+      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"'
     }
   },
   computed: {

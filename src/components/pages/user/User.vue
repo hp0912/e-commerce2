@@ -2,12 +2,16 @@
   <div id="user">
     <!-- 登录注册 -->
     <div id="user-info">
-      <label class="avatar" @click="uploadAvatar">
-        <img :src="avatar" :onerror="errorImage" />
-        <input id="file" type="file" @change="fileUpload($event)" style="display: none;">
+      <label class="avatar">
+        <img v-if="!userInfo.userName" src="https://img.aoaoaowu.com/images/default-avatar.png" :onerror="errorImage" />
+        <img v-else :src="userInfo.avatar" :onerror="errorImage" @click="uploadAvatar" />
+        <input v-if="userInfo.userName" id="file" type="file" @change="fileUpload($event)" style="display: none;">
       </label>
       <router-link v-if="!userInfo.userName" class="login" to="/login" tag="span">登录/注册</router-link>
-      <span v-else class="username">{{ userInfo.userName }}</span>
+      <div v-else class="username">
+        <span>{{ userInfo.nickname }}</span>
+        <van-icon name="setting" style="font-size: 1.2rem;" @click="setting"/>
+      </div>
     </div>
     <!-- 订单信息 -->
     <div class="order-container">
@@ -124,12 +128,12 @@ import axios from 'axios'
 import {URL} from '@/serviceAPI.config.js'
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
+import {uploadToken} from '@/api/user.js'
 
 export default {
   data () {
     return {
-      avatar: require('@/assets/images/default-avatar.png'),
-      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"'
+      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"'
     }
   },
   computed: {
@@ -147,7 +151,7 @@ export default {
       if (file.size > 1024 * 1024 * 2) {
         Toast('上传失败，只能传2M以内图片')
       } else {
-        // uploadToken().then((response) => {
+        uploadToken().then((response) => {
         //   if (response.data.status === 200) {
         //     let data = {token: response.data.uptoken, file}
         //     upload(data).then((upResponse) => {
@@ -161,8 +165,11 @@ export default {
         //     this.alertText = response.data.message
         //     this.showTip = true;
         //   }
-        // })
+        })
       }
+    },
+    setting () {
+      this.$router.push({name: 'UserSettings'})
     },
     popup () {
       this.$router.push({name: 'Popup'})
@@ -197,6 +204,7 @@ export default {
           withCredentials: true
         }).then(response => {
           if (response.data.code === 200) {
+            this.$store.dispatch('updateUserInfo', {})
             localStorage.removeItem('userId')
             Toast('已登出')
           } else {
@@ -249,7 +257,12 @@ export default {
   font-size: 0.75rem;
 }
 .username {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 0.75rem;
+  padding-right: 0.5rem;
 }
 .order-container {
   margin-top: 0.6rem;

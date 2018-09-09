@@ -20,6 +20,7 @@ const AboutUs = r => require.ensure([], () => r(require('@/components/pages/user
 const Welfare = r => require.ensure([], () => r(require('@/components/pages/user/Welfare')), 'Welfare')
 const CustomerService = r => require.ensure([], () => r(require('@/components/pages/user/CustomerService')), 'CustomerService')
 const Popup = r => require.ensure([], () => r(require('@/components/pages/user/Popup')), 'Popup')
+const UserSettings = r => require.ensure([], () => r(require('@/components/pages/user/UserSettings')), 'UserSettings')
 const Error = r => require.ensure([], () => r(require('@/components/pages/Error')), 'Error')
 
 Vue.use(Router)
@@ -127,6 +128,12 @@ const router = new Router({
       path: '/popup',
       name: 'Popup',
       component: Popup,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/userSettings',
+      name: 'UserSettings',
+      component: UserSettings,
       meta: {requireAuth: true}
     },
     {

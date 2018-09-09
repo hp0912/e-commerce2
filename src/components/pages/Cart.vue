@@ -57,7 +57,7 @@ export default {
     return {
       cartInfo: {},
       zIndex: 100,
-      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"',
+      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"',
       editStatus: false,
       checked: true
     }
@@ -215,14 +215,14 @@ export default {
   display: flex;
 }
 .row-left {
-  flex: 1;
+  width: 20px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   background: #fafafa;
 }
 .row-right {
-  flex: 9;
+  flex: 1;
   display: flex;
 }
 .van-card {

@@ -40,7 +40,7 @@ export default {
       loading: false,
       finished: false,
       offset: 300,
-      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"',
+      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"',
       page: 1
     }
   },

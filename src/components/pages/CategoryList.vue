@@ -63,7 +63,7 @@ export default {
       page: 1,
       goodList: [],
       categorySubId: '',
-      errorImage: 'onerror=null;src="' + require('@/assets/images/img-404.gif') + '"',
+      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"',
       offset: 300
     }
   },

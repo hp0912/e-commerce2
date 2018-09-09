@@ -19,8 +19,8 @@ const actions = {
       }
     })
   },
-  updateUserInfo ({commit}, {userInfo}) {
-    commit('updateUserInfo', {userInfo})
+  updateUserInfo ({commit}, userInfo) {
+    commit('updateUserInfo', userInfo)
   }
 }
 
@@ -28,8 +28,8 @@ const mutations = {
   getUserInfo (state, userInfo) {
     state.userInfo = {...userInfo}
   },
-  updateUserInfo (state) {
-    state.userInfo = {}
+  updateUserInfo (state, userInfo) {
+    state.userInfo = {...userInfo}
   },
   clearUserInfo (state) {
     state.userInfo = {}

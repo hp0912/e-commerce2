@@ -7,3 +7,11 @@ export const getUserInfo = (data) => {
   }
   return _post(req)
 }
+
+export const uploadToken = (data) => {
+  let req = {
+    data,
+    url: 'user/uploadtoken'
+  }
+  return _post(req)
+}
