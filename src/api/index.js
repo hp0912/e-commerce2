@@ -1,7 +1,7 @@
 import router from '@/router'
 import {Toast} from 'vant'
 
-const baseURL = 'https:aoaoaowu.com/'
+const baseURL = ''
 const axios = require('axios').create({
   baseURL: baseURL,
   // timeout: 2000,
