@@ -35,8 +35,7 @@
 
 <script>
 import {Toast} from 'vant'
-import axios from 'axios'
-import {URL} from '@/serviceAPI.config.js'
+import {getDetailGoodsInfo} from '@/api/goods'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -62,12 +61,8 @@ export default {
   },
   methods: {
     getInfo () {
-      axios({
-        url: URL.getDetailGoodsInfo,
-        method: 'post',
-        data: {
-          goodsId: this.goodsId
-        }
+      getDetailGoodsInfo({
+        goodsId: this.goodsId
       }).then(response => {
         if (response.data.code === 200 && response.data.message) {
           this.goodsInfo = response.data.message

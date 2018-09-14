@@ -124,8 +124,7 @@
 // import {getInfo} from '@/utils/auth'
 // import {uploadToken, upload} from '@/api/upload'
 // import config from '@/config'
-import axios from 'axios'
-import {URL} from '@/serviceAPI.config.js'
+import {logout} from '@/api/user'
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
 import {uploadToken} from '@/api/user.js'
@@ -198,11 +197,7 @@ export default {
         title: '确认登出',
         message: '确定要退出登录吗?'
       }).then(() => {
-        axios({
-          url: URL.logout,
-          method: 'post',
-          withCredentials: true
-        }).then(response => {
+        logout({}).then(response => {
           if (response.data.code === 200) {
             this.$store.dispatch('updateUserInfo', {})
             localStorage.removeItem('userId')

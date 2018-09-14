@@ -44,8 +44,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {URL} from '@/serviceAPI.config.js'
+import {sentVerificationCode, registerUser} from '@/api/user'
 import {Toast} from 'vant'
 
 export default {
@@ -115,12 +114,7 @@ export default {
       if (!this.username.match(/^[1][34578]\d{9}$/)) {
         this.usernameErrorMsg = '请输入正确的手机号'
       }
-      axios({
-        url: URL.sentVerificationCode,
-        method: 'post',
-        withCredentials: true,
-        data: {tel: this.username}
-      }).then(response => {
+      sentVerificationCode({tel: this.username}).then(response => {
         if (response.data.code === 200) {
           this.smsButtonText = `${this.countdown}S`
           this.timer = setInterval(() => {
@@ -146,16 +140,11 @@ export default {
     },
     axiosRegisterUser () {
       this.openLoading = true
-      axios({
-        url: URL.registerUser,
-        method: 'post',
-        withCredentials: true,
-        data: {
-          userName: this.username,
-          password: this.password,
-          sms: this.sms,
-          reset: this.reset
-        }
+      registerUser({
+        userName: this.username,
+        password: this.password,
+        sms: this.sms,
+        reset: this.reset
       }).then(response => {
         if (response.data.code === 200) {
           localStorage.setItem('userId', this.username)

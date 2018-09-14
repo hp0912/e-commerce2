@@ -41,8 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {URL} from '@/serviceAPI.config.js'
+import {login} from '@/api/user'
 import {Toast} from 'vant'
 
 export default {
@@ -106,15 +105,10 @@ export default {
     },
     axiosLoginUser () {
       this.openLoading = true
-      axios({
-        url: URL.login,
-        method: 'post',
-        withCredentials: true,
-        data: {
-          userName: this.username,
-          password: this.password,
-          token: this.token
-        }
+      login({
+        userName: this.username,
+        password: this.password,
+        token: this.token
       }).then(response => {
         if (response.data.code === 200 && response.data.result) {
           new Promise((resolve, reject) => {

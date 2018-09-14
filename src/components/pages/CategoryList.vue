@@ -47,8 +47,7 @@
 
 <script>
 import {Toast} from 'vant'
-import axios from 'axios'
-import {URL} from '@/serviceAPI.config.js'
+import {getCategoryList, getCategorySubList, getGoodsListByCategorySubID} from '@/api/goods'
 
 export default {
   data () {
@@ -82,10 +81,7 @@ export default {
   },
   methods: {
     getCategory () {
-      axios({
-        url: URL.getCategoryList,
-        method: 'get'
-      }).then(response => {
+      getCategoryList().then(response => {
         if (response.data.code === 200 && response.data.message) {
           this.category = response.data.message
           this.getCategorySubByCategoryId(this.category[0].ID)
@@ -97,11 +93,7 @@ export default {
       })
     },
     getCategorySubByCategoryId (categoryId) {
-      axios({
-        url: URL.getCategorySubList,
-        method: 'post',
-        data: {categoryId: categoryId}
-      }).then(response => {
+      getCategorySubList({categoryId: categoryId}).then(response => {
         if (response.data.code === 200 && response.data.message) {
           this.categorySub = response.data.message
           this.active = 0
@@ -115,13 +107,9 @@ export default {
       })
     },
     getGoodList () {
-      axios({
-        url: URL.getGoodsListByCategorySubID,
-        method: 'post',
-        data: {
-          categorySubId: this.categorySubId,
-          page: this.page
-        }
+      getGoodsListByCategorySubID({
+        categorySubId: this.categorySubId,
+        page: this.page
       }).then(response => {
         if (response.data.code === 200 && response.data.message.length) {
           this.page++

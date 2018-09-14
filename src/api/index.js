@@ -1,8 +1,7 @@
-import {BASEURL} from '@/serviceAPI.config.js'
 import router from '@/router'
 import {Toast} from 'vant'
 
-const baseURL = BASEURL
+const baseURL = 'https:aoaoaowu.com/'
 const axios = require('axios').create({
   baseURL: baseURL,
   // timeout: 2000,

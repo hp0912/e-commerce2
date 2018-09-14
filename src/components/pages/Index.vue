@@ -69,11 +69,10 @@
 
 <script>
 import 'swiper/dist/css/swiper.css'
-import axios from 'axios'
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import floorComponent from '../component/floorComponent'
 import goodsInfo from '../component/goodsInfoComponent'
-import {URL} from '@/serviceAPI.config.js'
+import {getIndexGoodsInfo} from '@/api/goods'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -113,10 +112,7 @@ export default {
       this.$store.dispatch('location')
     }
 
-    axios({
-      url: URL.getShoppingMallInfo,
-      method: 'post'
-    }).then(result => {
+    getIndexGoodsInfo({}).then(result => {
       if (result.status === 200) {
         this.category = result.data.data.category
         this.bannerPicArray = result.data.data.slides

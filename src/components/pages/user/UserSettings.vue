@@ -24,8 +24,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import {URL} from '@/serviceAPI.config.js'
+import {updateUserInfo} from '@/api/user'
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
 
@@ -62,13 +61,8 @@ export default {
     },
     updateUserInfo () {
       this.openLoading = true
-      axios({
-        url: URL.updateUserInfo,
-        method: 'post',
-        withCredentials: true,
-        data: {
-          nickname: this.nickname
-        }
+      updateUserInfo({
+        nickname: this.nickname
       }).then(response => {
         if (response.data.status === 200) {
           Toast.success(response.data.message)
