@@ -87,7 +87,6 @@ export default {
         effect: 'slide',
         slidesPerView: 3
       },
-      locationIcon: require('@/assets/images/location.svg'),
       bannerPicArray: [],
       category: [],
       adBanner: [],
@@ -116,7 +115,7 @@ export default {
 
     axios({
       url: URL.getShoppingMallInfo,
-      method: 'get'
+      method: 'post'
     }).then(result => {
       if (result.status === 200) {
         this.category = result.data.data.category
