@@ -28,7 +28,7 @@
     </div>
     <!--AD banner area-->
     <div class="ad-banner">
-      <img v-lazy="adBanner.PICTURE_ADDRESS" width="100%">
+      <img v-lazy="adBanner.PICTURE_ADDRESS" width="100%" :key="adBanner.PICTURE_ADDRESS">
     </div>
     <!--Recommend goods area-->
     <div class="recommend-area">
