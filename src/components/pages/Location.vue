@@ -8,7 +8,7 @@
       :z-index="zIndex"
       @click-left="onClickLeft"
     />
-    <search placeholder="请输入收货地址" :fun_search="fun_search"></search>
+    <van-search placeholder="请输入收货地址" v-model.trim="value" @input="fun_search" />
     <div class="location-current" v-if="fromIndex && !suggestionLists.length" @click="locationCurrent">
       <van-icon name="location" class="iconfont" />
       <span>点击定位当前位置</span>
@@ -27,12 +27,12 @@
 <script>
 import {Toast} from 'vant'
 import {suggestion} from '@/api/location'
-import search from '@/components/component/search.vue'
 
 export default {
   data () {
     return {
       zIndex: 100,
+      value: '',
       suggestionLists: [],
       fromIndex: false
     }
@@ -41,8 +41,12 @@ export default {
     onClickLeft () {
       this.$router.go(-1)
     },
-    fun_search (val) {
-      suggestion({keyword: val}).then((response) => {
+    fun_search () {
+      if (this.value === '') {
+        this.suggestionLists = []
+        return
+      }
+      suggestion({keyword: this.value}).then((response) => {
         this.suggestionLists = response.data.data.data
       }).catch(error => {
         if (error.message.indexOf('timeout') !== -1) {
@@ -71,9 +75,6 @@ export default {
   },
   mounted () {
     this.fromIndex = !!this.$route.query.fromIndex
-  },
-  components: {
-    search
   }
 }
 </script>
@@ -97,9 +98,8 @@ export default {
   justify-content: center;
   align-items: center;
   background: #fff;
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
-  padding: 0.2rem 0;
+  margin: 0 15px;
+  padding: 7px 0;
 }
 .location-current .iconfont {
   display: inline-block;

@@ -28,7 +28,7 @@
     </div>
     <!--AD banner area-->
     <div class="ad-banner">
-      <img v-lazy="adBanner.PICTURE_ADDRESS" width="100%" :key="adBanner.PICTURE_ADDRESS">
+      <img :src="adBanner.PICTURE_ADDRESS" width="100%" />
     </div>
     <!--Recommend goods area-->
     <div class="recommend-area">
@@ -138,9 +138,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 20rem;
-  margin: 0 auto;
-  padding-top: 2.875rem;
+  padding-top: 46px;
 }
 .guide-container {
   display: flex;
@@ -149,7 +147,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 2.875rem;
+  height: 46px;
   background-color: #ff9000;
   z-index: 100;
   user-select: none;
@@ -167,7 +165,7 @@ export default {
 }
 .guide-container .location .iconfont {
   color: #fff;
-  font-size: 1.05rem;
+  font-size: 20px;
 }
 .guide-container .location i:first-child {
   padding-left: 8px;
@@ -175,7 +173,7 @@ export default {
 }
 .guide-container .location .address {
   flex: 1;
-  font-size: 0.75rem;
+  font-size: 14px;
   color: #fff;
   overflow: hidden;
   white-space: nowrap;
@@ -183,31 +181,30 @@ export default {
 }
 .guide-container .location i:last-child {
   padding-right: 8px;
-  font-size: 0.75rem;
+  font-size: 14px;
 }
 .guide-container .search {
   flex: 1;
   background: #ffaa71;
-  margin-right: 0.2rem;
+  margin-right: 4px;
   display: flex;
   align-items: center;
-  border-radius: 1rem;
+  border-radius: 18px;
 }
 .guide-container .search .iconfont {
   display: inline-block;
   color: #fff;
   padding-left: 10px;
-  font-size: 1.05rem;
+  font-size: 20px;
 }
 .guide-container .search .search-name {
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 14px;
   display: inline-block;
   padding-left: 10px;
 }
 .swiper-area {
   font-size: 0;
-  width:20rem;
   max-height: 9.15rem;
   clear:both;
 }

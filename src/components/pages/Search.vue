@@ -1,18 +1,20 @@
 <template>
   <div class="searchGoods">
-    <div class="search-guide">
-      <div class="goBack" @click="onClickLeft">
-        <van-icon name="arrow-left" />
-        <span>返回</span>
-      </div>
-      <search placeholder="请输入商品" title="选择收货地址" :beforeSearch="fun_beforeSearch" :fun_search="fun_search" slot="title"></search>
-    </div>
+    <van-nav-bar
+      title="商品搜索"
+      left-text="返回"
+      left-arrow
+      fixed
+      :z-index="zIndex"
+      @click-left="onClickLeft"
+    />
+    <van-search placeholder="请输入商品" v-model="keyword" />
     <div id="list-div">
       <van-list
         v-model="loading"
         :finished="finished"
         :offset="offset"
-        @load="fun_search(keyword)"
+        @load="fun_search()"
       >
         <div class="list-item" @click="goGoodsInfo(item.ID)" v-for="(item, index) in searchList" :key="index">
           <div class="list-item-img"><img :src="item.IMAGE1" width="100%" :onerror="errorImage" /></div>
@@ -29,7 +31,6 @@
 <script>
 import {Toast} from 'vant'
 import {searchGoods} from '@/api/goods'
-import search from '@/components/component/search.vue'
 
 export default {
   data () {
@@ -57,13 +58,17 @@ export default {
     onClickLeft () {
       this.$router.go(-1)
     },
-    fun_search (val) {
-      if (!val) {
+    beforeSearch () {
+      this.searchList = []
+      this.finished = false
+      this.page = 1
+    },
+    fun_search () {
+      if (this.keyword === '') {
         this.loading = false
         return
       }
-      this.keyword = val
-      searchGoods({keyword: val, page: this.page}).then((response) => {
+      searchGoods({keyword: this.keyword, page: this.page}).then((response) => {
         let res = response.data
         if (res.code === 200 && res.message.length) {
           this.page++
@@ -81,17 +86,15 @@ export default {
         }
       })
     },
-    fun_beforeSearch () {
-      this.searchList = []
-      this.finished = false
-      this.page = 1
-    },
     goGoodsInfo (id) {
       this.$router.push({name: 'Goods', params: {goodsId: id}})
     }
   },
-  components: {
-    search
+  watch: {
+    keyword () {
+      this.beforeSearch()
+      this.fun_search()
+    }
   }
 }
 </script>
@@ -104,30 +107,10 @@ export default {
   top: 0;
   bottom: 0;
   overflow-y: auto;
-  padding-top: 2.875rem;
+  padding-top: 46px;
   background: rgb(244, 244, 244);
 }
-.goBack {
-  display: flex;
-  align-items: center;
-  margin-left: 0.4rem;
-  color: #38f;
-}
-.search-guide {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2.875rem;
-  background-color: #ff9000;
-  z-index: 100;
-  user-select: none;
-}
-.search-guide .search-container {
-  margin-right: 0.4rem;
+.van-nav-bar {
   background-color: #ff9000;
 }
 #list-div {
