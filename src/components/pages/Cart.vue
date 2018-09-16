@@ -220,6 +220,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   background: #fafafa;
+  padding-left: 5px;
 }
 .row-right {
   flex: 1;

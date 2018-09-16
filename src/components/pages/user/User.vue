@@ -5,7 +5,7 @@
       <label class="avatar">
         <img v-if="!userInfo.userName" src="https://img.aoaoaowu.com/images/default-avatar.png" :onerror="errorImage" />
         <img v-else :src="userInfo.avatar" :onerror="errorImage" @click="uploadAvatar" />
-        <input v-if="userInfo.userName" id="file" type="file" @change="fileUpload($event)" style="display: none;">
+        <input v-if="userInfo.userName" id="file" type="file" @change="fileUpload($event)" style="display: '';">
       </label>
       <router-link v-if="!userInfo.userName" class="login" to="/login" tag="span">登录/注册</router-link>
       <div v-else class="username">
@@ -128,11 +128,25 @@ import {logout} from '@/api/user'
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
 import {uploadToken} from '@/api/user.js'
+import COS from 'cos-js-sdk-v5'
 
 export default {
   data () {
     return {
-      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"'
+      errorImage: 'onerror=null;src="https://img.aoaoaowu.com/images/img-404.gif"',
+      cos: new COS({
+        getAuthorization (options, callback) {
+          uploadToken().then((response) => {
+            if (response.data.status === 200) {
+              // eslint-disable-next-line
+              callback({TmpSecretId: response.data.tempKeys.credentials.tmpSecretId, TmpSecretKey: response.data.tempKeys.credentials.tmpSecretKey, XCosSecurityToken: response.data.tempKeys.credentials.sessionToken, ExpiredTime: response.data.tempKeys.expiredTime})
+            } else {
+              // eslint-disable-next-line
+              callback({TmpSecretId: '', TmpSecretKey: '', XCosSecurityToken: '', ExpiredTime: ''})
+            }
+          })
+        }
+      })
     }
   },
   computed: {
@@ -144,26 +158,29 @@ export default {
     },
     fileUpload (event) {
       let file = event.target.files[0]
+      let extension
       if (!file) {
         return
+      } else {
+        extension = file.name.substr(file.name.lastIndexOf('.'))
       }
       if (file.size > 1024 * 1024 * 2) {
         Toast('上传失败，只能传2M以内图片')
       } else {
-        uploadToken().then((response) => {
-        //   if (response.data.status === 200) {
-        //     let data = {token: response.data.uptoken, file}
-        //     upload(data).then((upResponse) => {
-        //       let pic_url = config.domain + upResponse.data.key
-        //       this.avatar = pic_url;
-        //       this.loading = false;
-        //       changeAvatar({pic_url}).then((updateResponse) => {
-        //       })     //更新到数据库
-        //     })
-        //   } else {
-        //     this.alertText = response.data.message
-        //     this.showTip = true;
-        //   }
+        this.cos.sliceUploadFile({
+          Bucket: 'aoaoaowu-1256901433',
+          Region: 'ap-guangzhou',
+          path: 'ECUserAvatar/',
+          Key: 'ECUserAvatar/avatar' + this.userInfo.userName + (new Date().getTime()) + extension,
+          Body: file,
+          onHashProgress: function (progressData) {
+            console.log('校验中', JSON.stringify(progressData))
+          },
+          onProgress: function (progressData) {
+            console.log('上传中', JSON.stringify(progressData))
+          }
+        }, function (err, data) {
+          console.log(err, data)
         })
       }
     },
@@ -201,7 +218,7 @@ export default {
           if (response.data.code === 200) {
             this.$store.dispatch('updateUserInfo', {})
             localStorage.removeItem('userId')
-            Toast('已登出')
+            Toast('已退出登录')
           } else {
             Toast('服务器内部错误, 请联系管理员')
           }

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cos-js-sdk-v5": "^0.4.16",
     "fastclick": "^1.0.6",
     "vant": "^1.2.0",
     "vue": "^2.5.2",

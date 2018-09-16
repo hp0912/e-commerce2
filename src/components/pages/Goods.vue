@@ -93,6 +93,7 @@ export default {
         count: 1
       }
       this.$store.dispatch('addCart', newGoodsInfo)
+      Toast('添加成功，在购物车等亲~')
     },
     onClickMiniBtn () {
       Toast('人工智能客服即将上线,敬请期待!')

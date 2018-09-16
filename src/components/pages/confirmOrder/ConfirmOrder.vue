@@ -215,7 +215,7 @@ export default {
   margin-left: 0.5rem;
 }
 .add-text {
-  color: yellow;
+  color: #979696;
   font-size: 0.8rem;
 }
 .desc-text {
@@ -227,7 +227,7 @@ export default {
   font-size: 0.8rem;
 }
 .icon-add {
-  color: yellow;
+  color: #979696;
 }
 .icon-right {
   font-size: 0.8rem;

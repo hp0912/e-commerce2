@@ -136,6 +136,8 @@ export default {
         this.$nextTick(() => {
           this.$refs['form'].submit()
         })
+        localStorage.removeItem('cartList')
+        localStorage.removeItem('confirmOrderData')
       })
     },
     calcRemainTime (remainTime) { // 倒计时
