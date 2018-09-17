@@ -121,7 +121,7 @@ export default {
             if (this.$route.query.redirect) {
               this.$router.replace(decodeURIComponent(this.$route.query.redirect))
             } else {
-              this.$router.replace('/')
+              this.$router.replace('/user')
             }
           }).catch(err => {
             this.capt.reload()

@@ -5,9 +5,9 @@
       <label class="avatar">
         <img v-if="!userInfo.userName" src="https://img.aoaoaowu.com/images/default-avatar.png" :onerror="errorImage" />
         <img v-else :src="userInfo.avatar" :onerror="errorImage" @click="uploadAvatar" />
-        <input v-if="userInfo.userName" id="file" type="file" @change="fileUpload($event)" style="display: '';">
+        <input v-if="userInfo.userName" id="file" type="file" @change="fileUpload($event)" style="display: none;">
       </label>
-      <router-link v-if="!userInfo.userName" class="login" to="/login" tag="span">登录/注册</router-link>
+      <span v-if="!userInfo.userName" class="login" @click="login">登录/注册</span>
       <div v-else class="username">
         <span>{{ userInfo.nickname }}</span>
         <van-icon name="setting" style="font-size: 1.2rem;" @click="setting"/>
@@ -124,10 +124,9 @@
 // import {getInfo} from '@/utils/auth'
 // import {uploadToken, upload} from '@/api/upload'
 // import config from '@/config'
-import {logout} from '@/api/user'
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
-import {uploadToken} from '@/api/user.js'
+import {logout, uploadToken} from '@/api/user.js'
 import COS from 'cos-js-sdk-v5'
 
 export default {
@@ -170,7 +169,6 @@ export default {
         this.cos.sliceUploadFile({
           Bucket: 'aoaoaowu-1256901433',
           Region: 'ap-guangzhou',
-          path: 'ECUserAvatar/',
           Key: 'ECUserAvatar/avatar' + this.userInfo.userName + (new Date().getTime()) + extension,
           Body: file,
           onHashProgress: function (progressData) {
@@ -183,6 +181,10 @@ export default {
           console.log(err, data)
         })
       }
+    },
+    login () {
+      localStorage.removeItem('userId')
+      this.$router.push({name: 'Login'})
     },
     setting () {
       this.$router.push({name: 'UserSettings'})

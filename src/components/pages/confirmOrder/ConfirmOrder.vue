@@ -150,6 +150,7 @@ export default {
     onSubmit () {
       this.loading = true
       if (this.emptyAddress) {
+        this.loading = false
         Toast('请添加收货地址')
         return
       }
