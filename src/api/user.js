@@ -55,3 +55,11 @@ export const uploadToken = (data) => {
   }
   return _post(req)
 }
+
+export const changeAvatar = (data) => {
+  let req = {
+    data,
+    url: 'user/changeAvatar'
+  }
+  return _post(req)
+}

@@ -50,9 +50,29 @@
     </ul>
     <div class="Advertising">
     </div>
-    <div class="submit" @click="submit()">
+    <div class="submit" @click="selectPayType()">
       <span>确定支付 ￥ </span><span style="font-size: 1.3rem;">{{ 0.10 }}</span>
     </div>
+    <transition name="fade">
+      <div class="pay-channel" v-show="payMethodShow">
+        <div class="channel-select-container">
+          <div class="scan" @click="payMethodFunc('1')">
+            <van-checkbox v-model="scanChecked"></van-checkbox>
+            <span class="pay-method-name">扫二维码支付</span>
+          </div>
+          <div class="wap" @click="payMethodFunc('2')">
+            <van-checkbox v-model="wapChecked"></van-checkbox>
+            <span class="pay-method-name">手机APP支付</span>
+          </div>
+          <div class="pay-channel-submit" :class="{disabled: preventRepeat}" @click="submit()">确定支付</div>
+        </div>
+        <div class="close" @click="close()">
+          <van-icon name="close" style="font-size: 1.8rem;color: #fff;"/>
+        </div>
+      </div>
+    </transition>
+    <!--扫码支付-->
+    <scan :payType="payType" :orderData="orderData" @close="scanShow = false" v-show="scanShow"></scan>
     <!--调用app支付-->
     <form action="https://pay.trsoft.xin/order/trpayGetWay" method="post" id="form" ref="form">
       <input type="hidden" name="amount" v-model="formData.amount">
@@ -74,6 +94,7 @@
 <script>
 import {initPay, getOrderInfo} from '@/api/order'
 import {Toast} from 'vant'
+import scan from '../component/scan'
 
 export default {
   data () {
@@ -84,10 +105,14 @@ export default {
       payType: '1', // 支付渠道
       alipayChecked: true,
       wechatChecked: false,
+      scanChecked: true,
+      wapChecked: false,
       formData: {},
       seconds: '', // 倒计时秒
       minutes: '', // 倒计时分
-      method: 'trpay.trade.create.wap', // 支付方式
+      method: 'trpay.trade.create.scan', // 支付方式
+      scanShow: false,
+      payMethodShow: false,
       orderData: {},
       overtime: false,
       preventRepeat: false
@@ -107,6 +132,30 @@ export default {
         this.alipayChecked = false
         this.wechatChecked = true
       }
+    },
+    payMethodFunc (method) {
+      if (method === '1') {
+        this.method = 'trpay.trade.create.scan'
+        this.scanChecked = true
+        this.wapChecked = false
+      } else {
+        this.method = 'trpay.trade.create.wap'
+        this.scanChecked = false
+        this.wapChecked = true
+      }
+    },
+    close () {
+      this.payMethodShow = false
+      this.scanChecked = true
+      this.wapChecked = false
+      this.method = 'trpay.trade.create.scan'
+    },
+    selectPayType () {
+      if (this.overtime) {
+        Toast('支付超时')
+        return
+      }
+      this.payMethodShow = true
     },
     submit () {
       if (this.preventRepeat) {
@@ -132,10 +181,15 @@ export default {
           }, 1000)
           return
         }
-        this.formData = response.data.data
-        this.$nextTick(() => {
-          this.$refs['form'].submit()
-        })
+        if (this.method === 'trpay.trade.create.scan') {
+          this.orderData = response.data.data
+          this.scanShow = true
+        } else {
+          this.formData = response.data.data
+          this.$nextTick(() => {
+            this.$refs['form'].submit()
+          })
+        }
         localStorage.removeItem('cartList')
         localStorage.removeItem('confirmOrderData')
       })
@@ -164,6 +218,9 @@ export default {
         this.calcRemainTime(remainTime)
       }, 1000)
     })
+  },
+  components: {
+    scan
   }
 }
 </script>
@@ -256,5 +313,48 @@ export default {
   background: yellow;
   margin: 1rem 0 0 0;
   padding: 5px 0;
+}
+.pay-channel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(21, 17, 17, 0.8);
+  z-index: 101;
+}
+.channel-select-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.channel-select-container .scan, .channel-select-container .wap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.pay-method-name {
+  padding-left: 12px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+.pay-channel .close {
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.pay-channel-submit {
+  text-align: center;
+  font-size: 1.1rem;
+  background: yellow;
+  width: 8rem;
+  line-height: 2.6rem;
+  margin: 2rem auto;
+}
+.disabled {
+  background: #999;
 }
 </style>

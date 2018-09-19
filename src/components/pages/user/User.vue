@@ -120,13 +120,9 @@
 </template>
 
 <script>
-// import {userInfo, changeAvatar} from '@/api/user'
-// import {getInfo} from '@/utils/auth'
-// import {uploadToken, upload} from '@/api/upload'
-// import config from '@/config'
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
-import {logout, uploadToken} from '@/api/user.js'
+import {logout, uploadToken, changeAvatar} from '@/api/user.js'
 import COS from 'cos-js-sdk-v5'
 
 export default {
@@ -162,23 +158,54 @@ export default {
         return
       } else {
         extension = file.name.substr(file.name.lastIndexOf('.'))
+        if (!(extension === '.jpg' || extension === '.jpeg' || extension === '.png' || extension === '.webp')) {
+          Toast('图片格式必须是jpg,jpeg,png,webp。')
+          return
+        }
       }
       if (file.size > 1024 * 1024 * 2) {
         Toast('上传失败，只能传2M以内图片')
       } else {
+        const toast = Toast.loading({
+          duration: 0,
+          forbidClick: true,
+          loadingType: 'spinner',
+          message: '上传准备中'
+        })
         this.cos.sliceUploadFile({
           Bucket: 'aoaoaowu-1256901433',
           Region: 'ap-guangzhou',
           Key: 'ECUserAvatar/avatar' + this.userInfo.userName + (new Date().getTime()) + extension,
           Body: file,
-          onHashProgress: function (progressData) {
+          onHashProgress (progressData) {
+            toast.message = '校验中'
             console.log('校验中', JSON.stringify(progressData))
           },
-          onProgress: function (progressData) {
-            console.log('上传中', JSON.stringify(progressData))
+          onProgress (progressData) {
+            toast.message = '上传中(' + (progressData.percent * 100) + '%)'
           }
-        }, function (err, data) {
-          console.log(err, data)
+        }, (err, data) => {
+          toast.message = '上传成功'
+          if (err) {
+            toast.message = '上传失败'
+            toast.clear()
+          } else {
+            toast.message = '信息更新中'
+            changeAvatar({avatar: data.Key}).then((response) => {
+              toast.clear()
+              if (response.data.status === 200) {
+                let user = {}
+                Object.assign(user, this.userInfo, {avatar: response.data.data.url})
+                this.$store.dispatch('updateUserInfo', user)
+                Toast(response.data.message)
+              } else {
+                Toast(response.data.message)
+              }
+            }).catch(() => {
+              toast.clear()
+              Toast('更换头像失败')
+            })
+          }
         })
       }
     },
