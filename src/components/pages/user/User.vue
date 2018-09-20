@@ -20,13 +20,13 @@
         <span class="my-order-02">查看全部订单</span>
       </div>
       <div class="my-order-category">
-        <div class="order-category">
+        <div class="order-category" @click="ordersPendingPayment">
           <div class="order-category-icon">
             <van-icon name="pending-payment" />
           </div>
           <div class="order-category-text">待付款</div>
         </div>
-        <div class="order-category">
+        <div class="order-category" @click="ordersPending">
           <div class="order-category-icon">
             <van-icon name="pending-orders" />
           </div>
@@ -38,7 +38,7 @@
           </div>
           <div class="order-category-text">待收货</div>
         </div>
-        <div class="order-category">
+        <div class="order-category" @click="ordersPendingEvaluate">
           <div class="order-category-icon">
             <van-icon name="pending-evaluate" />
           </div>
@@ -208,6 +208,15 @@ export default {
           }
         })
       }
+    },
+    ordersPendingPayment () {
+      this.$router.push({name: 'OrdersPendingPayment'})
+    },
+    ordersPending () {
+      this.$router.push({name: 'OrdersPending'})
+    },
+    ordersPendingEvaluate () {
+      Toast('暂未开放评论功能')
     },
     login () {
       localStorage.removeItem('userId')

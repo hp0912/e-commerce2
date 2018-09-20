@@ -21,6 +21,10 @@ const Welfare = r => require.ensure([], () => r(require('@/components/pages/user
 const CustomerService = r => require.ensure([], () => r(require('@/components/pages/user/CustomerService')), 'CustomerService')
 const Popup = r => require.ensure([], () => r(require('@/components/pages/user/Popup')), 'Popup')
 const UserSettings = r => require.ensure([], () => r(require('@/components/pages/user/UserSettings')), 'UserSettings')
+
+const OrdersPending = r => require.ensure([], () => r(require('@/components/pages/user/OrdersPending')), 'OrdersPending')
+const OrdersPendingPayment = r => require.ensure([], () => r(require('@/components/pages/user/OrdersPendingPayment')), 'OrdersPendingPayment')
+
 const Error = r => require.ensure([], () => r(require('@/components/pages/Error')), 'Error')
 
 Vue.use(Router)
@@ -134,6 +138,18 @@ const router = new Router({
       path: '/userSettings',
       name: 'UserSettings',
       component: UserSettings,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/ordersPendingPayment',
+      name: 'OrdersPendingPayment',
+      component: OrdersPendingPayment,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/ordersPending',
+      name: 'OrdersPending',
+      component: OrdersPending,
       meta: {requireAuth: true}
     },
     {

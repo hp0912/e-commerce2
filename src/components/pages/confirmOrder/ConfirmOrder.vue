@@ -162,7 +162,10 @@ export default {
       submitOrder({goods, addressId: this.defineAddress._id}).then((response) => {
         if (response.data.status === 200) {
           Toast(response.data.message)
-          this.$router.push({path: '/pay', query: {orderId: response.data.orderId}})
+          this.$router.replace({path: '/pay', query: {orderId: response.data.orderId}})
+        } else {
+          this.loading = false
+          Toast(response.data.message)
         }
       }).catch(error => {
         this.loading = false

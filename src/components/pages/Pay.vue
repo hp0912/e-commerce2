@@ -31,7 +31,7 @@
     <ul class="pay-way">
       <li @click="payTypeFunc('1')">
         <span class="pay-icon">
-          <van-icon name="alipay" class="iconfont" />
+          <van-icon name="alipay" class="iconfont-alipay" />
         </span>
         <span class="pay-way-name">支付宝</span>
         <span>
@@ -40,7 +40,7 @@
       </li>
       <li @click="payTypeFunc('2')">
         <span class="pay-icon">
-          <van-icon name="wechat" class="iconfont" />
+          <van-icon name="wechat" class="iconfont-wechat" />
         </span>
         <span class="pay-way-name">微信支付</span>
         <span>
@@ -302,6 +302,12 @@ export default {
 }
 .Advertising {
   margin: 1rem auto;
+}
+.iconfont-alipay {
+  color: #3d91e4;
+}
+.iconfont-wechat {
+  color: #2aaf90;
 }
 .submit {
   position: fixed;
