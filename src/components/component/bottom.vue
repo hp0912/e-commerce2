@@ -9,7 +9,7 @@
       <div class="van-tabbar-item__text">吼吼精选</div>
     </div>
     <div class="van-tabbar-item" :class="{'van-tabbar-item--active': active === 'cart'}" @click="toCart">
-      <div class="van-tabbar-item__icon"><i class="van-icon van-icon-cart"><!----></i><div class="van-icon__info">{{ cartListNum }}</div></div>
+      <div class="van-tabbar-item__icon"><i class="van-icon van-icon-cart"><!----></i><div class="van-info">{{ cartListNum }}</div></div>
       <div class="van-tabbar-item__text">购物车</div>
     </div>
     <div class="van-tabbar-item" :class="{'van-tabbar-item--active': active === 'user'}" @click="toUser">

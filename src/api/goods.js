@@ -25,6 +25,15 @@ export const getDetailGoodsInfo = (data) => {
   return _post(req)
 }
 
+// 获取商品评价
+export const getGoodsComments = (data) => {
+  let req = {
+    data,
+    url: 'goods/getGoodsComments'
+  }
+  return _post(req)
+}
+
 export const getCategoryList = (data) => {
   let req = {
     data,

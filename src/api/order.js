@@ -18,6 +18,7 @@ export const initPay = (data) => {
   return _post(req)
 }
 
+// ajax轮询扫码支付状态
 export const queryPayStatus = (data) => {
   let req = {
     data,
@@ -34,7 +35,7 @@ export const getOrderInfo = (data) => {
   return _get(req)
 }
 
-// 获取我的订单
+// 待支付
 export const pendingPayment = (data) => {
   let req = {
     data,
@@ -43,6 +44,7 @@ export const pendingPayment = (data) => {
   return _post(req)
 }
 
+// 取消订单
 export const cancelOrder = (data) => {
   let req = {
     data,
@@ -51,6 +53,7 @@ export const cancelOrder = (data) => {
   return _post(req)
 }
 
+// 待收货 等待物流
 export const pendingDeliver = (data) => {
   let req = {
     data,
@@ -59,11 +62,29 @@ export const pendingDeliver = (data) => {
   return _post(req)
 }
 
-// 订单评论
-export const makeComment = (data) => {
+// 确认收货
+export const confirmReceipt = (data) => {
   let req = {
     data,
-    url: 'v1/comment'
+    url: 'order/confirmReceipt'
+  }
+  return _post(req)
+}
+
+// 待评价
+export const pendingEvaluate = (data) => {
+  let req = {
+    data,
+    url: 'order/pendingEvaluate'
+  }
+  return _post(req)
+}
+
+// 订单评论
+export const submitComment = (data) => {
+  let req = {
+    data,
+    url: 'order/submitComment'
   }
   return _post(req)
 }
