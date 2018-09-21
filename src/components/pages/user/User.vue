@@ -9,7 +9,7 @@
       </label>
       <span v-if="!userInfo.userName" class="login" @click="login">登录/注册</span>
       <div v-else class="username">
-        <span>{{ userInfo.nickname }}</span>
+        <span class="nickname">{{ userInfo.nickname }}</span>
         <van-icon name="setting" style="font-size: 1.2rem;" @click="setting"/>
       </div>
     </div>
@@ -319,6 +319,11 @@ export default {
   justify-content: space-between;
   font-size: 0.75rem;
   padding-right: 0.5rem;
+}
+.nickname {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .order-container {
   margin-top: 0.6rem;
