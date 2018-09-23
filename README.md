@@ -26,6 +26,10 @@ npm run build --report
 7. 新增订单支付功能
 8. 使用session重写登录逻辑
 9. 新增用户中心页面
+10. 修复了下拉刷新可能导致数据重复的bug
+11. 新增头像上传和修改用户信息功能
+12. 新增订单管理功能
+13. 新增商品评价功能
 
 [后端项目链接: https://github.com/hp0912/e-commerce2-backend](https://github.com/hp0912/e-commerce2-backend)
 
