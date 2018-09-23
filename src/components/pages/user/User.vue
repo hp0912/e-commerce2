@@ -286,6 +286,9 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
+      if (!vm.userInfo.userName) { // 未登录
+        return
+      }
       getQtyOfOrder({}).then(response => {
         if (response.data.status === 200) {
           let orderCount = response.data.data
