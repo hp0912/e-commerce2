@@ -26,6 +26,7 @@ const OrdersPending = r => require.ensure([], () => r(require('@/components/page
 const OrdersPendingPayment = r => require.ensure([], () => r(require('@/components/pages/user/OrdersPendingPayment')), 'OrdersPendingPayment')
 const OrdersPendingDeliver = r => require.ensure([], () => r(require('@/components/pages/user/OrdersPendingDeliver')), 'OrdersPendingDeliver')
 const OrdersPendingEvaluate = r => require.ensure([], () => r(require('@/components/pages/user/OrdersPendingEvaluate')), 'OrdersPendingEvaluate')
+const OrdersAll = r => require.ensure([], () => r(require('@/components/pages/user/OrdersAll')), 'OrdersAll')
 
 const Error = r => require.ensure([], () => r(require('@/components/pages/Error')), 'Error')
 
@@ -164,6 +165,12 @@ const router = new Router({
       path: '/ordersPendingEvaluate',
       name: 'OrdersPendingEvaluate',
       component: OrdersPendingEvaluate,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/ordersAll',
+      name: 'OrdersAll',
+      component: OrdersAll,
       meta: {requireAuth: true}
     },
     {

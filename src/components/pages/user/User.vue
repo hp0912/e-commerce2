@@ -23,24 +23,28 @@
         <div class="order-category" @click="ordersPendingPayment">
           <div class="order-category-icon">
             <van-icon name="pending-payment" />
+            <div class="order-category-info">{{ userInfo.orderCount1 ? userInfo.orderCount1 : ''}}</div>
           </div>
           <div class="order-category-text">待付款</div>
         </div>
         <div class="order-category" @click="ordersPending">
           <div class="order-category-icon">
             <van-icon name="pending-orders" />
+            <div class="order-category-info">{{ userInfo.orderCount2 ? userInfo.orderCount2 : ''}}</div>
           </div>
           <div class="order-category-text">待发货</div>
         </div>
         <div class="order-category" @click="ordersPendingDeliver">
           <div class="order-category-icon">
             <van-icon name="pending-deliver" />
+            <div class="order-category-info">{{ userInfo.orderCount3 ? userInfo.orderCount3 : ''}}</div>
           </div>
           <div class="order-category-text">待收货</div>
         </div>
         <div class="order-category" @click="ordersPendingEvaluate">
           <div class="order-category-icon">
             <van-icon name="pending-evaluate" />
+            <div class="order-category-info">{{ userInfo.orderCount4 ? userInfo.orderCount4 : ''}}</div>
           </div>
           <div class="order-category-text">待评价</div>
         </div>
@@ -123,6 +127,7 @@
 import {Toast} from 'vant'
 import {mapGetters} from 'vuex'
 import {logout, uploadToken, changeAvatar} from '@/api/user.js'
+import {getQtyOfOrder} from '@/api/order.js'
 import COS from 'cos-js-sdk-v5'
 
 export default {
@@ -210,7 +215,7 @@ export default {
       }
     },
     ordersAll () {
-      Toast('别点了，VIP会员尊享~')
+      this.$router.push({name: 'OrdersAll'})
     },
     ordersPendingPayment () {
       this.$router.push({name: 'OrdersPendingPayment'})
@@ -278,6 +283,27 @@ export default {
     if (!this.userInfo.userName) {
       this.$store.dispatch('getUserInfo')
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      getQtyOfOrder({}).then(response => {
+        if (response.data.status === 200) {
+          let orderCount = response.data.data
+          let user = {}
+          Object.assign(user, vm.userInfo, {
+            orderCount1: orderCount.count1,
+            orderCount2: orderCount.count2,
+            orderCount3: orderCount.count3,
+            orderCount4: orderCount.count4
+          })
+          vm.$store.dispatch('updateUserInfo', user)
+        } else {
+          Toast(response.data.message)
+        }
+      }).catch((error) => {
+        Toast(error.message)
+      })
+    })
   }
 }
 </script>
@@ -363,6 +389,23 @@ export default {
 }
 .order-category-icon {
   font-size: 1.4rem;
+  position: relative;
+}
+.order-category-info {
+  color: #fff;
+  left: 100%;
+  top: -.5em;
+  font-size: .5em;
+  padding: 0 .3em;
+  text-align: center;
+  min-width: 1.2em;
+  line-height: 1.2;
+  position: absolute;
+  border-radius: .6em;
+  box-sizing: border-box;
+  background-color: #f44;
+  transform: translateX(-50%);
+  font-family: PingFang SC,Helvetica Neue,Arial,sans-serif;
 }
 .order-category-text {
   font-size: 0.7rem;

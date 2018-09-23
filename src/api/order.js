@@ -80,11 +80,38 @@ export const pendingEvaluate = (data) => {
   return _post(req)
 }
 
+// 已完成的订单
+export const completedOrder = (data) => {
+  let req = {
+    data,
+    url: 'order/completedOrder'
+  }
+  return _post(req)
+}
+
+// 已过期的订单
+export const expiredOrder = (data) => {
+  let req = {
+    data,
+    url: 'order/expiredOrder'
+  }
+  return _post(req)
+}
+
 // 订单评论
 export const submitComment = (data) => {
   let req = {
     data,
     url: 'order/submitComment'
+  }
+  return _post(req)
+}
+
+// 获取订单数量
+export const getQtyOfOrder = (data) => {
+  let req = {
+    data,
+    url: 'order/getQtyOfOrder'
   }
   return _post(req)
 }

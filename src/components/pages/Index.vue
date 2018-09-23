@@ -1,5 +1,8 @@
 <template>
   <div class="main">
+    <van-notice-bar mode="closeable" left-icon="https://img.aoaoaowu.com/images/notice.png">
+      为回馈广大新客户，即日起每天前五十名下单的客户尊享免单资格，最低只要一分钱。
+    </van-notice-bar>
     <div class="guide-container">
       <router-link to="/location?fromIndex=true" class="location">
         <van-icon name="location" class="iconfont" />

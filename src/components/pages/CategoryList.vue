@@ -109,10 +109,9 @@ export default {
     getGoodList () {
       getGoodsListByCategorySubID({
         categorySubId: this.categorySubId,
-        page: this.page
+        page: this.page++
       }).then(response => {
         if (response.data.code === 200 && response.data.message.length) {
-          this.page++
           this.goodList = this.goodList.concat(response.data.message)
         } else {
           this.finished = true

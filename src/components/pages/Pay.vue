@@ -192,6 +192,7 @@ export default {
         }
         localStorage.removeItem('cartList')
         localStorage.removeItem('confirmOrderData')
+        this.$store.dispatch('emptyCart')
       })
     },
     calcRemainTime (remainTime) { // 倒计时
