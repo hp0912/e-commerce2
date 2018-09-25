@@ -252,7 +252,7 @@ export default {
   max-height: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 20px;
+  line-height: 1rem;
   word-break: break-all;
   font-size: 0.8rem;
   color: grey;
