@@ -222,6 +222,8 @@ export default {
 }
 .goods-name {
   max-height: 40px;
+  font-size: 16px;
+  line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
